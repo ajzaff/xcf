@@ -263,7 +263,6 @@ func loadLayer(r io.ReadSeeker, offset uint32) (layer Layer, err error) {
 
 	// read properties
 	layer.Visible = true
-	//layer.Width, layer.Height = int(header.Width), int(header.Height)
 	var x, y int32
 	for {
 		var propHeader propertyHeader
@@ -274,10 +273,10 @@ func loadLayer(r io.ReadSeeker, offset uint32) (layer Layer, err error) {
 		if propHeader.MagicID == propEnd {
 			break
 		} else if propHeader.MagicID == propOffsets {
-			if err = binary.Read(r, endianness, x); err != nil {
+			if err = binary.Read(r, endianness, &x); err != nil {
 				return
 			}
-			if err = binary.Read(r, endianness, y); err != nil {
+			if err = binary.Read(r, endianness, &y); err != nil {
 				return
 			}
 		} else if propHeader.MagicID == propVisible {
