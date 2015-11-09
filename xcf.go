@@ -18,10 +18,10 @@ import (
 	"os"
 )
 
-// A Canvas contains all the layers. It is not itself an image, it just has a
-// size and its top-left corner has the coordinates 0,0. The layers' bounds are
-// relative to that. Layers are ordered top-most first and bottom-most last in
-// the Layers slice.
+// A Canvas contains all the image's layers. It is not itself an image, it just
+// has a size and its top-left corner has the coordinates 0,0. The layers' bounds
+// are relative to that. Layers are ordered top-most first and bottom-most last
+// in the Layers slice.
 type Canvas struct {
 	Width, Height uint32
 	Layers        []Layer
@@ -29,9 +29,9 @@ type Canvas struct {
 
 // A Layer is a rectangular pixel area. Its bounds are relative to the Canvas'
 // origin, which is at 0,0. The bounds can lie outside the canvas.
-// Each layer is itself and image.Image. The image data contains the unmodified
-// pixels, the Visibility and Opacity are stored extra. You have to mask in the
-// opacity if you want to draw the layer onto another image.
+// Each layer is itself an image.Image. The image data contains the unmodified
+// pixels, the Visibility and Opacity are stored separately. You have to mask in
+// the opacity if you want to draw the layer onto another image.
 type Layer struct {
 	image.Image
 	Name    string
@@ -40,7 +40,7 @@ type Layer struct {
 }
 
 // LoadFromFile opens the given file and reads the XCF data using the Decode
-// function.
+// function. See that function for restrictions.
 func LoadFromFile(path string) (Canvas, error) {
 	file, err := os.Open(path)
 	if err != nil {
