@@ -42,8 +42,7 @@ func composeLayers(canvas xcf.Canvas) image.Image {
 	img := image.NewRGBA(image.Rect(0, 0, int(canvas.Width), int(canvas.Height)))
 
 	// fill it with a transparent background
-	alpha := image.NewUniform(color.RGBA{0, 0, 0, 0})
-	draw.Draw(img, img.Bounds(), alpha, image.ZP, draw.Src)
+	draw.Draw(img, img.Bounds(), image.Transparent, image.ZP, draw.Src)
 
 	// starting with the bottom-most layer, draw all visible layers over the
 	// image, with their respective opacity
