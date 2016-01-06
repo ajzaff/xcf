@@ -27,6 +27,17 @@ type Canvas struct {
 	Layers        []Layer
 }
 
+// GetLayerByName searches all layers for one with the given name and reutrns it.
+// If no layer with that name exists, nil is returned.
+func (c *Canvas) GetLayerByName(name string) *Layer {
+	for i := range c.Layers {
+		if c.Layers[i].Name == name {
+			return &c.Layers[i]
+		}
+	}
+	return nil
+}
+
 // A Layer is a rectangular pixel area. Its bounds are relative to the Canvas'
 // origin, which is at 0,0. The bounds can lie outside the canvas.
 // Each layer is itself an image.Image. The image data contains the unmodified
@@ -335,7 +346,8 @@ type hierarchyHeader struct {
 	FirstLevelPointer uint32
 }
 
-func readImageData(r io.ReadSeeker, layerHeader layerHeader, layerX, layerY int, offset uint32) (img image.Image, err error) {
+func readImageData(r io.ReadSeeker, layerHeader layerHeader, layerX, layerY int,
+	offset uint32) (img image.Image, err error) {
 	var header hierarchyHeader
 	r.Seek(int64(offset), 0)
 	if err = binary.Read(r, endianness, &header); err != nil {
