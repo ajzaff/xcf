@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/gonutz/xcf"
 	"image"
 	"image/color"
 	"image/draw"
 	"image/png"
 	"os"
+
+	"github.com/gonutz/xcf"
 )
 
 func main() {
