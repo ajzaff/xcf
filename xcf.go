@@ -40,11 +40,12 @@ func (c *Canvas) GetLayerByName(name string) *Layer {
 
 // A Layer is a rectangular pixel area. Its bounds are relative to the Canvas'
 // origin, which is at 0,0. The bounds can lie outside the canvas.
-// Each layer is itself an image.Image. The image data contains the unmodified
-// pixels, the Visibility and Opacity are stored separately. You have to mask in
-// the opacity if you want to draw the layer onto another image.
+// Each layer is itself an image.Image (*image.RGBA is an image.Image). The
+// image data contains the unmodified pixels, the Visibility and Opacity are
+// stored separately. You have to mask in the opacity if you want to draw the
+// layer onto another image.
 type Layer struct {
-	image.Image
+	*image.RGBA
 	Name    string
 	Visible bool
 	Opacity uint8
@@ -332,7 +333,7 @@ func loadLayer(r io.ReadSeeker, offset uint32) (layer Layer, err error) {
 		return
 	}
 
-	layer.Image, err = readImageData(r, header, int(x), int(y), pixelPointer)
+	layer.RGBA, err = readImageData(r, header, int(x), int(y), pixelPointer)
 	if err != nil {
 		return
 	}
@@ -347,7 +348,7 @@ type hierarchyHeader struct {
 }
 
 func readImageData(r io.ReadSeeker, layerHeader layerHeader, layerX, layerY int,
-	offset uint32) (img image.Image, err error) {
+	offset uint32) (img *image.RGBA, err error) {
 	var header hierarchyHeader
 	r.Seek(int64(offset), 0)
 	if err = binary.Read(r, endianness, &header); err != nil {
