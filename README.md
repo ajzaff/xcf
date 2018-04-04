@@ -35,4 +35,4 @@ func main() {
 }
 ```
 
-See the [documentation](https://godoc.org/github.com/gonutz/xcf) for details.
+See the [documentation](https://godoc.org/github.com/gonutz/xcf) for details. This document is the same as the `draft.txt` file included in this repo.
